@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": true,
+      "externalConsole": false,
+      "cwd": "/Users/olfabre/Desktop/UNIVERSITE/UE Algorithmique avancée et programmation/TP2arbrebinaireequilibre",
+      "program": "/Users/olfabre/Desktop/UNIVERSITE/UE Algorithmique avancée et programmation/TP2arbrebinaireequilibre/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb"
+    }
+  ]
+}
