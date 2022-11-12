@@ -85,8 +85,14 @@ AVL::AVL(char *filename, bool option)
 
         if (((int(c) != 10) && (int(c) != 32)) && lectureClefNoeud == true) // Fin de lecture de la première ligne
         {
-
-            cout << c - 48 << " ";
+            if (option == true)
+            {
+                cout << c - 48 << " ";
+            }
+            if (option == false)
+            {
+                cout << c - 48 << " ";
+            }
         }
 
         if (lectureClefNoeud == false)
@@ -209,5 +215,139 @@ void AVL::rotationDroite(noeud *x)
                 pere->fd = noeudGauche;
             }
         }
+    }
+}
+
+void AVL::insertionFeuille(noeud *x, noeud *y)
+{
+    // Selon Algo enseignant correction TD 2 ENT
+    noeud *Noeud = x;
+    noeud *pere = NULL;
+
+    while (Noeud != NULL)
+    {
+        pere = Noeud;
+        if (y->cle <= Noeud->cle)
+        {
+            Noeud = Noeud->fg;
+        }
+        else
+        {
+            Noeud = Noeud->fd;
+        }
+    }
+
+    y->pere = pere;
+
+    if (y->pere == 0)
+    {
+        x = y;
+    }
+    else
+    {
+        if (y->cle <= y->pere->cle)
+        {
+
+            y->pere->fg = y;
+        }
+        else
+        {
+            y->pere->fd = y;
+        }
+    }
+}
+
+void AVL::insertionRacine(noeud *x, noeud *y)
+{
+    // Algo source: https://e-uapv2022.univ-avignon.fr/pluginfile.php/64132/mod_resource/content/24/TD-L2-S3-arbres-binaires-2022-2023-corr.pdf
+
+    if (x == NULL)
+    {
+        x = y;
+    }
+    else
+    {
+        if (y->cle < x->cle)
+        {
+            if (x->fg == NULL)
+            {
+                x->fg = y;
+            }
+            else
+            {
+                insertionRacine(x->fg, y);
+            }
+            rotationDroite(x);
+        }
+        else
+        {
+            if (x->fd == NULL)
+            {
+                x->fd = y;
+            }
+            else
+            {
+                insertionRacine(x->fd, y);
+            }
+            rotationGauche(x);
+        }
+    }
+}
+
+noeud *AVL::partition(noeud *x, int k)
+{
+    // Algo source: https://e-uapv2022.univ-avignon.fr/pluginfile.php/64132/mod_resource/content/24/TD-L2-S3-arbres-binaires-2022-2023-corr.pdf
+    int temp;
+    noeud *resultat = NULL;
+
+    if (x != NULL)
+    {
+        temp = 0;
+
+        if (x->fg)
+        {
+            temp = x->fg->N;
+        }
+
+        if (temp == (k - 1))
+        {
+            resultat = x;
+        }
+    }
+    else
+    {
+        if (temp > (k - 1))
+        {
+            resultat = partition(x->fg, k);
+            rotationDroite(x);
+        }
+        else
+        {
+            resultat = partition(x->fd, (k - temp - 1));
+            rotationGauche(x);
+        }
+    }
+    return resultat;
+}
+
+void AVL::desequilibres(noeud *x)
+{
+    if (x)
+        x->d = hauteur(x->fg) - hauteur(x->fd);
+    else
+        x->d = -1;
+}
+
+void AVL::equilibre(noeud *x)
+{
+    int N;
+    int k;
+    if (x && (x->N > 1))
+    {
+        N = x->N;
+        k = (N / 2);
+        partition(x, k);
+        equilibre(x->fg);
+        equilibre(x->fd);
     }
 }

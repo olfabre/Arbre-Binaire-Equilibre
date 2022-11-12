@@ -28,7 +28,8 @@ int main(int argc, char **argv)
 		if (choixOption == 0)
 			optionCreationArbre = true;
 
-		AVL(argv[1], optionCreationArbre);
+		AVL arbre = AVL(argv[1], optionCreationArbre);
+		// arbre.prefixe(arbre.root());
 	}
 
 	return -1;
