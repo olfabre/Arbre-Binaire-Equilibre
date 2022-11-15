@@ -42,6 +42,7 @@ public:
     void desequilibres(noeud *x);              // calcule le d´esequilibre en chaque noeud d’un arbre de racine x.
     noeud *partition(noeud *x, int k);         // partitionne l’arbre par rapport a sa k-ieme plus petite valeur et renvoie l’adresse de celle-ci (voir TD Arbres Equilibres).
     void equilibre(noeud *x);                  // equilibre l’arbre en utilisant une procedure de type “diviser pour regner” (voir TD Arbres Equlibres).
+    void Infixe(noeud *x);
 };
 
 #endif

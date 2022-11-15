@@ -78,6 +78,8 @@ AVL::AVL(char *filename, bool option)
     bool lectureClefNoeud(false);
     FILE *f;
     char c;
+    bool debut(true);
+    int cleInsertion(0);
     // Lecture du nombre
     f = fopen(filename, "rt");
     while ((c = fgetc(f)) != EOF)
@@ -87,11 +89,35 @@ AVL::AVL(char *filename, bool option)
         {
             if (option == true)
             {
-                cout << c - 48 << " ";
+                cleInsertion = c - 48;
+
+                if (debut)
+                {
+                    cout << cleInsertion << " ";
+                    insertionFeuille(NULL, new noeud(cleInsertion));
+                    debut = false;
+                }
+                else
+                {
+                    cout << cleInsertion << " ";
+                    insertionFeuille(root(), new noeud(cleInsertion));
+                }
             }
             if (option == false)
             {
-                cout << c - 48 << " ";
+                cleInsertion = c - 48;
+
+                if (debut)
+                {
+                    cout << cleInsertion << " ";
+                    insertionRacine(NULL, new noeud(cleInsertion));
+                    debut = false;
+                }
+                else
+                {
+                    cout << cleInsertion << " ";
+                    insertionRacine(root(), new noeud(cleInsertion));
+                }
             }
         }
 
@@ -99,14 +125,29 @@ AVL::AVL(char *filename, bool option)
         {
             nbrNoeud = c - 48;
             lectureClefNoeud = true;
-            cout << "\n> CREATION ARBRE " << (option ? "EN FEUILLE:" : "EN RACINE") << endl;
+            cout << "\n> CREATION ARBRE " << (option ? "EN FEUILLE <" : "EN RACINE <") << endl;
             cout << "Nbr de noeud à créer: " << nbrNoeud << endl;
-            cout << "Lecture et insertion des clés suivantes: ";
+            cout << "Lecture fichier et insertion des clés suivantes: ";
         }
     }
 
     cout << endl;
+
     fclose(f);
+}
+
+void AVL::Infixe(noeud *x)
+{
+    if (x)
+    {
+        Infixe(x->fg);
+        cout << " " << x->cle;
+        Infixe(x->fd);
+    }
+    else
+    {
+        cout << "Pas d'instance d'arbre";
+    }
 }
 
 int AVL::hauteur(noeud *x)
@@ -143,6 +184,10 @@ void AVL::prefixe(noeud *x)
         x->affiche();
         prefixe(x->fg);
         prefixe(x->fd);
+    }
+    else
+    {
+        cout << "0/0" << endl;
     }
 }
 
